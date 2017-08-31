@@ -17,7 +17,7 @@ An apb for deploying [PostgreSQL](https://www.postgresql.org).
 * postgresql_version, Optional, default '9.5', Postgresql version. 9.4 and 9.5 are supported.
 
 ## Running the application
-`docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_USER=<user>" -e "OPENSHIFT_PASS=<password>" ansibleplaybookbundle/rhscl-postgresql-apb provision`
+`docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_TOKEN=<token>" ansibleplaybookbundle/rhscl-postgresql-apb provision`
 
 ## Tearing down the application
-`docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_USER=<user>" -e "OPENSHIFT_PASS=<password>" ansibleplaybookbundle/rhscl-postgresql-apb deprovision`
+`docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_TOKEN=<token>" ansibleplaybookbundle/rhscl-postgresql-apb deprovision`
