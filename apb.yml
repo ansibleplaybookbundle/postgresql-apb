@@ -45,6 +45,8 @@ plans:
       longDescription: This plan provides a single non-HA PostgreSQL server without persistent storage
       cost: $0.00
     parameters: *_p
+    updates_to:
+      - prod
   - name: prod
     description: A single DB server with persistent storage
     free: true
