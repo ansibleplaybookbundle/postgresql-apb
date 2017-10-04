@@ -24,6 +24,7 @@ _p: &_p
     title: PostgreSQL Version
     required: true
 ################################################################################
+version: 1.0
 name: rhscl-postgresql-apb
 image: ansibleplaybookbundle/rhscl-postgresql-apb
 description: SCL PostgreSQL apb implementation
