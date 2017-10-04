@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.0.3
+Version:	1.0.4
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,14 @@ mv roles %{buildroot}/opt/ansible/roles
 /opt/ansible/roles
 
 %changelog
+* Wed Oct 04 2017 Jason Montleon <jmontleo@redhat.com> 1.0.4-1
+- Bug 1498185 - Move version label onto APB spec (dymurray@redhat.com)
+- Fix nightly metadata (jmontleo@redhat.com)
+- Update url for postgresql apb (david.j.zager@gmail.com)
+- Bumped APB spec version to 1.0 (dymurray@redhat.com)
+- Updated APB to include proper providerDisplayName metadata
+  (dymurray@redhat.com)
+
 * Tue Sep 19 2017 Jason Montleon <jmontleo@redhat.com> 1.0.3-1
 - new package built with tito
 
