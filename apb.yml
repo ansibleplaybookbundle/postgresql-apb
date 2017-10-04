@@ -26,7 +26,6 @@ _p: &_p
 ################################################################################
 version: 1.0
 name: rhscl-postgresql-apb
-image: ansibleplaybookbundle/rhscl-postgresql-apb
 description: SCL PostgreSQL apb implementation
 bindable: true
 async: optional
