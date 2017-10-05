@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.0.4
+Version:	1.0.5
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,11 @@ mv roles %{buildroot}/opt/ansible/roles
 /opt/ansible/roles
 
 %changelog
+* Thu Oct 05 2017 Jason Montleon <jmontleo@redhat.com> 1.0.5-1
+- Add support to update a dev deployment to a prod deployment
+  (jmontleo@redhat.com)
+- Bug 1498571 - Remove image from APB (david.j.zager@gmail.com)
+
 * Wed Oct 04 2017 Jason Montleon <jmontleo@redhat.com> 1.0.4-1
 - Bug 1498185 - Move version label onto APB spec (dymurray@redhat.com)
 - Fix nightly metadata (jmontleo@redhat.com)
