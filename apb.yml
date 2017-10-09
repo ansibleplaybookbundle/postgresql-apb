@@ -32,7 +32,9 @@ async: optional
 metadata:
   documentationUrl: https://www.postgresql.org/docs/
   longDescription: An apb that deploys postgresql 9.4 or 9.5.
-  dependencies: ['registry.access.redhat.com/rhscl/postgresql-95-rhel7']
+  dependencies:
+    - 'registry.access.redhat.com/rhscl/postgresql-94-rhel7'
+    - 'registry.access.redhat.com/rhscl/postgresql-95-rhel7'
   displayName: PostgreSQL (APB)
   console.openshift.io/iconClass: icon-postgresql
   providerDisplayName: "Red Hat, Inc."
