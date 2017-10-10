@@ -1,0 +1,12 @@
+language: go
+go:
+  - "1.8.x"
+dist: trusty
+sudo: required
+group: edge
+
+before_script:
+  - bash <(curl -s https://raw.githubusercontent.com/rthallisey/service-broker-ci/master/setup-gate.sh)
+  - go get github.com/rthallisey/service-broker-ci/cmd/ci
+script:
+  - ci
