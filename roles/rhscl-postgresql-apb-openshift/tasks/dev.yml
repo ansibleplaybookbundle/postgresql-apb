@@ -27,7 +27,7 @@
         value: '{{ postgresql_user }}'
       - name: POSTGRESQL_DATABASE
         value: '{{ postgresql_database }}'
-      image: registry.access.redhat.com/rhscl/{{ image }}
+      image: {{ image }}
       image_pull_policy: IfNotPresent
       name: postgresql
       ports:
