@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.0.7
+Version:	1.0.8
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,9 @@ mv roles %{buildroot}/opt/ansible/roles
 /opt/ansible/roles
 
 %changelog
+* Fri Oct 13 2017 Jason Montleon <jmontleo@redhat.com> 1.0.8-1
+- Ensure proper templating with quotes on image (dymurray@redhat.com)
+
 * Fri Oct 13 2017 Jason Montleon <jmontleo@redhat.com> 1.0.7-1
 - stop prefixing the repository with the registry and org twice
   (jmontleo@redhat.com)
