@@ -18,7 +18,7 @@ _p: &_p
     maxlength: 63
     required: true
   - name: postgresql_version
-    default: 9.5
+    default: '9.5'
     enum: ['9.5', '9.4']
     type: enum
     title: PostgreSQL Version
