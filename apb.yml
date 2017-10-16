@@ -23,6 +23,7 @@ _p: &_p
     type: enum
     title: PostgreSQL Version
     required: true
+    updatable: true
 ################################################################################
 version: 1.0
 name: rhscl-postgresql-apb
