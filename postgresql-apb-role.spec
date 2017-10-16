@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.0.9
+Version:	1.0.10
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,9 @@ mv roles %{buildroot}/opt/ansible/roles
 /opt/ansible/roles
 
 %changelog
+* Mon Oct 16 2017 Jason Montleon <jmontleo@redhat.com> 1.0.10-1
+- Make version updatable (jmontleo@redhat.com)
+
 * Mon Oct 16 2017 Jason Montleon <jmontleo@redhat.com> 1.0.9-1
 - Bug 1500661 - Add missing quotes around default version. (chris@chasenc.com)
 
