@@ -1,11 +1,10 @@
-apiVersion: servicecatalog.k8s.io/v1alpha1
-kind: Instance
-#kind: ServiceInstance
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
 metadata:
   name: postgresql
 spec:
-  serviceClassName: dh-rhscl-postgresql-apb
-  planName: prod
+  clusterServiceClassExternalName: dh-rhscl-postgresql-apb
+  clusterServicePlanExternalName: prod
   parameters:
     postgresql_database: "admin"
     postgresql_password: "admin"
