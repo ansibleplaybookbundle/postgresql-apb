@@ -1,6 +1,8 @@
 rhscl-postgresql-apb
 ======================
 
+[![Build Status](https://travis-ci.org/ansibleplaybookbundle/rhscl-postgresql-apb.svg?branch=master)](https://travis-ci.org/openshift/ansible-service-broker)
+
 An apb for deploying [PostgreSQL](https://www.postgresql.org).
 
 ## What it does
