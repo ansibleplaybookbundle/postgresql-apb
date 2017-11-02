@@ -7,16 +7,16 @@ _p: &_p
     type: string
     title: PostgreSQL Database Name
     required: true
-  - name: postgresql_password
-    type: string
-    description: A random alphanumeric string if left blank
-    title: PostgreSQL Password
   - name: postgresql_user
     default: admin
     title: PostgreSQL User
     type: string
     maxlength: 63
     required: true
+  - name: postgresql_password
+    type: string
+    description: A random alphanumeric string if left blank
+    title: PostgreSQL Password
   - name: postgresql_version
     default: '9.5'
     enum: ['9.5', '9.4']
