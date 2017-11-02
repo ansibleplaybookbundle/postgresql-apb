@@ -17,6 +17,7 @@ _p: &_p
     type: string
     description: A random alphanumeric string if left blank
     title: PostgreSQL Password
+    display_type: password
   - name: postgresql_version
     default: '9.5'
     enum: ['9.5', '9.4']
