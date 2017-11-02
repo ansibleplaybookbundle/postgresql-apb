@@ -31,6 +31,9 @@ name: rhscl-postgresql-apb
 description: SCL PostgreSQL apb implementation
 bindable: true
 async: optional
+tags:
+  - databases
+  - postgresql
 metadata:
   documentationUrl: https://www.postgresql.org/docs/
   longDescription: An apb that deploys postgresql 9.4 or 9.5.
