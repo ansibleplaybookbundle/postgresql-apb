@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.0.11
+Version:	1.0.12
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,10 @@ mv roles %{buildroot}/opt/ansible/roles
 /opt/ansible/roles
 
 %changelog
+* Fri Nov 03 2017 Jason Montleon <jmontleo@redhat.com> 1.0.12-1
+- Bug 1508278 - Revert to using include for now for Ansible 2.3.2
+  compatibility. (cchase@redhat.com)
+
 * Fri Nov 03 2017 Jason Montleon <jmontleo@redhat.com> 1.0.11-1
 - Bug 1509018 - Added tags to show up under the right tab in the UI.
   (cchase@redhat.com)
