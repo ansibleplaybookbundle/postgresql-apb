@@ -8,6 +8,24 @@
       storage: '{{ postgresql_volume_size }}'
     state: "{{ state }}"
 
+- block:
+  - name: Find pod we need to update
+    shell: oc get pods -n {{ namespace }} -l app=rhscl-postgresql-apb -o custom-columns=name:.metadata.name --no-headers
+    register: devpod
+
+  - name: Create source pgpass
+    shell: oc exec -n {{ namespace }} {{ devpod.stdout }} -- /bin/bash -c "echo '*:*:*:{{ postgresql_user }}:{{ postgresql_password }}' > ~/.pgpass"
+
+  - name: Set permissions on source pgpass
+    shell:  oc exec -n {{ namespace }} {{ devpod.stdout }} -- /bin/bash -c "chmod 600 ~/.pgpass"
+
+  - name: Backup source database
+    shell:  oc exec -n {{ namespace }} {{ devpod.stdout }} -- /bin/bash -c "PGPASSFILE=~/.pgpass pg_dump -h localhost -U '{{ postgresql_user }}' '{{ postgresql_database }}' > /tmp/db.dump"
+
+  - name: Copy over db backup
+    shell: oc cp -n {{ namespace }} {{ devpod.stdout }}:/tmp/db.dump /tmp/db.dump
+  when: update is defined
+
 - name: set production deployment config state to {{ state }}
   openshift_v1_deployment_config:
     name: postgresql
@@ -59,3 +77,24 @@
     triggers:
     - type: ConfigChange
     state: "{{ state }}"
+
+- block:
+  - pause:
+      seconds: 30
+
+  - name: Find pod we need to restore
+    shell: oc get pods -n {{ namespace }} --show-all=false -l app=rhscl-postgresql-apb -o custom-columns=name:.metadata.name --no-headers
+    register: prodpod
+
+  - name: Copy over db backup
+    shell: oc cp -n {{ namespace }} /tmp/db.dump {{ prodpod.stdout }}:tmp/db.dump
+
+  - name: Create destination pgpass
+    shell: oc exec -n {{ namespace }} {{ prodpod.stdout }} -- /bin/bash -c "echo '*:*:*:{{ postgresql_user }}:{{ postgresql_password }}' > ~/.pgpass"
+
+  - name: Set permissions on destination pgpass
+    shell:  oc exec -n {{ namespace }} {{ prodpod.stdout }} -- /bin/bash -c "chmod 600 ~/.pgpass"
+
+  - name: Restore database
+    shell:  oc exec -n {{ namespace }} {{ prodpod.stdout }} -- /bin/bash -c "psql -h localhost -U '{{ postgresql_user }}' '{{ postgresql_database }}' -f /tmp/db.dump"
+  when: update is defined

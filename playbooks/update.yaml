@@ -2,6 +2,8 @@
   hosts: localhost
   gather_facts: false
   connection: local
+  vars:
+    update: true
   roles:
   - role: ansible.kubernetes-modules
     install_python_requirements: no
