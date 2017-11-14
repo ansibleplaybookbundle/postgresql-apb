@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.0.13
+Version:	1.0.14
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,9 @@ mv roles %{buildroot}/opt/ansible/roles
 /opt/ansible/roles
 
 %changelog
+* Tue Nov 14 2017 Jason Montleon <jmontleo@redhat.com> 1.0.14-1
+- Bug 1512430 - Remove unnecessary wait for service (jmontleo@redhat.com)
+
 * Tue Nov 07 2017 Jason Montleon <jmontleo@redhat.com> 1.0.13-1
 -  Bug 1508278 - Use include_tasks instead of include for updated Ansible
   version. (cchase@redhat.com)
