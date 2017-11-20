@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.1.0
+Version:	1.1.1
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,16 @@ mv roles %{buildroot}/opt/ansible/roles
 /opt/ansible/roles
 
 %changelog
+* Sun Nov 19 2017 Jason Montleon <jmontleo@redhat.com> 1.1.1-1
+- Rename the templates to follow convention (rhallise@redhat.com)
+- Add a log gathering script to the ci job (rhallise@redhat.com)
+- Pickup 3.7 framework changes (rhallise@redhat.com)
+- Fix templates to work with 3.7 (rhallise@redhat.com)
+- Use the ansible-service-broker setup gate script (rhallise@redhat.com)
+- Add CI to postgresql (rhallise@redhat.com)
+- Bug 1512430 - Remove unnecessary wait for service (jmontleo@redhat.com)
+- bump release (jesusr@redhat.com)
+
 * Tue Nov 07 2017 Jason Montleon <jmontleo@redhat.com> 1.0.13-1
 -  Bug 1508278 - Use include_tasks instead of include for updated Ansible
   version. (cchase@redhat.com)
