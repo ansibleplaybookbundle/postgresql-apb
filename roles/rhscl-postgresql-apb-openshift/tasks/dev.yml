@@ -1,5 +1,5 @@
 - name: set development deployment config state to {{ state }}
-  openshift_v1_deployment_config:
+  k8s_extensions_v1beta1_deployment:
     name: postgresql
     namespace: '{{ namespace }}'
     labels:
@@ -9,13 +9,7 @@
     selector:
       app: rhscl-postgresql-apb
       service: postgresql
-    strategy_type: Rolling
-    strategy_rolling_params:
-      interval_seconds: 1
-      max_surge: 25%
-      max_unavailable: 25%
-      timeout_seconds: 600
-      update_period_seconds: 1
+    strategy_type: RollingUpdate
     spec_template_metadata_labels:
       app: rhscl-postgresql-apb
       service: postgresql
@@ -38,7 +32,4 @@
     dns_policy: ClusterFirst
     restart_policy: Always
     termination_grace_period_seconds: 30
-    test: false
-    triggers:
-    - type: ConfigChange
     state: "{{ state }}"
