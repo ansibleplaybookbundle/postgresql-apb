@@ -1,7 +1,7 @@
-rhscl-postgresql-apb
+postgresql-apb
 ======================
 
-[![Build Status](https://travis-ci.org/ansibleplaybookbundle/rhscl-postgresql-apb.svg?branch=master)](https://travis-ci.org/openshift/ansible-service-broker)
+[![Build Status](https://travis-ci.org/ansibleplaybookbundle/postgresql-apb.svg?branch=master)](https://travis-ci.org/openshift/ansible-service-broker)
 
 An apb for deploying [PostgreSQL](https://www.postgresql.org).
 
@@ -19,7 +19,7 @@ An apb for deploying [PostgreSQL](https://www.postgresql.org).
 * postgresql_version, Optional, default '9.5', Postgresql version. 9.4 and 9.5 are supported.
 
 ## Running the application
-`docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_TOKEN=<token>" ansibleplaybookbundle/rhscl-postgresql-apb provision`
+`docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_TOKEN=<token>" ansibleplaybookbundle/postgresql-apb provision`
 
 ## Tearing down the application
-`docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_TOKEN=<token>" ansibleplaybookbundle/rhscl-postgresql-apb deprovision`
+`docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_TOKEN=<token>" ansibleplaybookbundle/postgresql-apb deprovision`
