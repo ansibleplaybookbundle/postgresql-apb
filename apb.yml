@@ -27,7 +27,7 @@ _p: &_p
     updatable: true
 ################################################################################
 version: 1.0
-name: rhscl-postgresql-apb
+name: postgresql-apb
 description: SCL PostgreSQL apb implementation
 bindable: true
 async: optional
