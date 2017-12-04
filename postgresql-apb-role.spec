@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.1.1
+Version:	1.1.2
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,9 @@ mv roles %{buildroot}/opt/ansible/roles
 /opt/ansible/roles
 
 %changelog
+* Mon Dec 04 2017 Jason Montleon <jmontleo@redhat.com> 1.1.2-1
+- updates for repo and container name change (jmontleo@redhat.com)
+
 * Sun Nov 19 2017 Jason Montleon <jmontleo@redhat.com> 1.1.1-1
 - Rename the templates to follow convention (rhallise@redhat.com)
 - Add a log gathering script to the ci job (rhallise@redhat.com)
