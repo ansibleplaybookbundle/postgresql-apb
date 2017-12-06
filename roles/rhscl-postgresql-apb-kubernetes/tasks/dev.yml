@@ -1,0 +1,35 @@
+- name: set development deployment config state to {{ state }}
+  k8s_extensions_v1beta1_deployment:
+    name: postgresql
+    namespace: '{{ namespace }}'
+    labels:
+      app: rhscl-postgresql-apb
+      service: postgresql
+    replicas: 1
+    selector:
+      app: rhscl-postgresql-apb
+      service: postgresql
+    strategy_type: RollingUpdate
+    spec_template_metadata_labels:
+      app: rhscl-postgresql-apb
+      service: postgresql
+    containers:
+    - env:
+      - name: POSTGRESQL_PASSWORD
+        value: '{{ postgresql_password }}'
+      - name: POSTGRESQL_USER
+        value: '{{ postgresql_user }}'
+      - name: POSTGRESQL_DATABASE
+        value: '{{ postgresql_database }}'
+      image: "{{ image }}"
+      image_pull_policy: IfNotPresent
+      name: postgresql
+      ports:
+      - container_port: 5432
+        protocol: TCP
+      termination_message_path: /dev/termination-log
+      working_dir: /
+    dns_policy: ClusterFirst
+    restart_policy: Always
+    termination_grace_period_seconds: 30
+    state: "{{ state }}"
