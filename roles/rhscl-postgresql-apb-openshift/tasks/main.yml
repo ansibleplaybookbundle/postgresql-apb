@@ -1,3 +1,25 @@
+- block:
+  - name: Find pod we need to update
+    shell: oc get pods -n {{ namespace }} -l app=rhscl-postgresql-apb -o custom-columns=name:.metadata.name --no-headers
+    register: oldpod
+
+  - name: Find dc we will clean up
+    shell: oc get dc -n {{ namespace }} -l app=rhscl-postgresql-apb -o custom-columns=name:.metadata.name --no-headers
+    register: olddc
+
+  - name: Create source pgpass
+    shell: oc exec -n {{ namespace }} {{ oldpod.stdout }} -- /bin/bash -c "echo '*:*:*:{{ postgresql_user }}:{{ postgresql_password }}' > ~/.pgpass"
+
+  - name: Set permissions on source pgpass
+    shell:  oc exec -n {{ namespace }} {{ oldpod.stdout }} -- /bin/bash -c "chmod 600 ~/.pgpass"
+
+  - name: Backup source database
+    shell:  oc exec -n {{ namespace }} {{ oldpod.stdout }} -- /bin/bash -c "PGPASSFILE=~/.pgpass pg_dump -h localhost -U '{{ postgresql_user }}' '{{ postgresql_database }}' > /tmp/db.dump"
+
+  - name: Copy over db backup
+    shell: oc cp -n {{ namespace }} {{ oldpod.stdout }}:/tmp/db.dump /tmp/db.dump
+  when: update is defined
+
 - name: set service state to {{ state }}
   k8s_v1_service:
     name: postgresql
@@ -7,7 +29,7 @@
       service: postgresql
     selector:
       app: rhscl-postgresql-apb
-      service: postgresql
+      service: postgresql-{{ postgresql_version }}-{{ _apb_plan_id }}
     ports:
     - name: port-5432
       port: 5432
@@ -16,29 +38,56 @@
     state: "{{ state }}"
   register: postgres_service
 
-- name: scale deployment down
-  openshift_v1_deployment_config:
-    name: postgresql
-    namespace: '{{ namespace }}'
-    replicas: 0
-    state: present
-    selector:
-      app: rhscl-postgresql-apb
-      service: postgresql
-  when: state == 'absent'
-
 - include_tasks: dev.yml
   when: _apb_plan_id == "dev"
 
 - include_tasks: prod.yml
   when: _apb_plan_id == "prod"
 
-- name: delete replication controller
-  k8s_v1_replication_controller:
-    name: postgresql-1
-    namespace: '{{ namespace }}'
-    state: absent
-  when: state == 'absent'
+- block:
+  - name: Wait for postgres to come up
+    wait_for:
+      port: 5432
+      host: "{{ postgres_service.service.spec.cluster_ip }}"
+      timeout: 300
+
+  - name: Find pod we need to restore
+    shell: oc get pods -n {{ namespace }} --show-all=false -l service=postgresql-{{ postgresql_version }}-{{ _apb_plan_id }} -o custom-columns=name:.metadata.name --no-headers
+    register: newpod
+
+  - name: Copy over db backup
+    shell: oc cp -n {{ namespace }} /tmp/db.dump {{ newpod.stdout }}:tmp/db.dump
+
+  - name: Create destination pgpass
+    shell: oc exec -n {{ namespace }} {{ newpod.stdout }} -- /bin/bash -c "echo '*:*:*:{{ postgresql_user }}:{{ postgresql_password }}' > ~/.pgpass"
+
+  - name: Set permissions on destination pgpass
+    shell:  oc exec -n {{ namespace }} {{ newpod.stdout }} -- /bin/bash -c "chmod 600 ~/.pgpass"
+
+  - name: Restore database
+    shell:  oc exec -n {{ namespace }} {{ newpod.stdout }} -- /bin/bash -c "psql -h localhost -U '{{ postgresql_user }}' '{{ postgresql_database }}' -f /tmp/db.dump"
+
+  - name: Remove old dc
+    openshift_v1_deployment_config:
+      name: "{{ olddc.stdout }}"
+      namespace: '{{ namespace }}'
+      state: absent
+
+  - name: ensure production volume is absent
+    k8s_v1_persistent_volume_claim:
+      name: postgresql-{{ item }}-prod
+      namespace: '{{ namespace }}'
+      access_modes:
+        - ReadWriteOnce
+      resources_requests:
+        storage: '{{ postgresql_volume_size }}'
+      state: "absent"
+    with_items:
+      - "9.4"
+      - "9.5"
+      - "9.6"
+    when: _apb_plan_id == "dev" or item != postgresql_version
+  when: update is defined
 
 - name: encode bind credentials
   asb_encode_binding:

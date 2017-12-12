@@ -18,9 +18,10 @@ _p: &_p
     description: A random alphanumeric string if left blank
     title: PostgreSQL Password
     display_type: password
+    required: true
   - name: postgresql_version
-    default: '9.5'
-    enum: ['9.5', '9.4']
+    default: '9.6'
+    enum: ['9.6', '9.5', '9.4']
     type: enum
     title: PostgreSQL Version
     required: true
@@ -36,10 +37,11 @@ tags:
   - postgresql
 metadata:
   documentationUrl: https://www.postgresql.org/docs/
-  longDescription: An apb that deploys postgresql 9.4 or 9.5.
+  longDescription: An apb that deploys postgresql 9.4, 9.5, or 9.6.
   dependencies:
     - 'registry.access.redhat.com/rhscl/postgresql-94-rhel7'
     - 'registry.access.redhat.com/rhscl/postgresql-95-rhel7'
+    - 'registry.access.redhat.com/rhscl/postgresql-96-rhel7'
   displayName: PostgreSQL (APB)
   console.openshift.io/iconClass: icon-postgresql
   providerDisplayName: "Red Hat, Inc."
@@ -62,3 +64,5 @@ plans:
       longDescription: This plan provides a single non-HA PostgreSQL server with persistent storage
       cost: $0.00
     parameters: *_p
+    updates_to:
+      - dev
