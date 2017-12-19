@@ -32,7 +32,7 @@ description: SCL PostgreSQL apb implementation
 bindable: true
 async: optional
 tags:
-  - databases
+  - database
   - postgresql
 metadata:
   documentationUrl: https://www.postgresql.org/docs/
