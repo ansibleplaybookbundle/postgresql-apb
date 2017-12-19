@@ -16,10 +16,10 @@ An apb for deploying [PostgreSQL](https://www.postgresql.org).
 * postgresql_database, Optional, default 'admin', Postgresql database name.
 * postgresql_password, Optional, default is a randomly generated string, Postgresql databaase password.
 * postgresql_user, Optional, default 'admin', Postgresql database username.
-* postgresql_version, Optional, default '9.5', Postgresql version. 9.4 and 9.5 are supported.
+* postgresql_version, Optional, default '9.6', Postgresql version. 9.4, 9.5, and 9.6 are supported.
 
 ## Running the application
-`docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_TOKEN=<token>" ansibleplaybookbundle/postgresql-apb provision`
+`docker run --rm --net=host -v $HOME/.kube:/opt/apb/.kube:z -u $UID docker.io/ansibleplaybookbundle/postresql-apb provision`
 
 ## Tearing down the application
 `docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_TOKEN=<token>" ansibleplaybookbundle/postgresql-apb deprovision`
