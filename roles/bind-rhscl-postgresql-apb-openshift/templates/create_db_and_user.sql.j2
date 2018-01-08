@@ -1,0 +1,5 @@
+CREATE DATABASE {{ postgresql_new_database }};
+
+CREATE ROLE {{ postgresql_new_user }} WITH LOGIN PASSWORD '{{ postgresql_new_password }}';
+
+GRANT ALL PRIVILEGES ON DATABASE {{ postgresql_new_database }} TO {{ postgresql_new_user }};

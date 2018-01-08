@@ -1,0 +1,6 @@
+---
+# only use lowercase letters because postgres does not allow upper case letter,
+# or a number at the start of the username
+postgresql_new_user: "{{ lookup('password', '/tmp/new_username length=15 chars=ascii_lowercase') }}"
+postgresql_new_password: "{{ lookup('password', '/tmp/new_password length=20 chars=ascii_letters,digits') }}"
+postgresql_new_database: "{{ postgresql_new_user }}"

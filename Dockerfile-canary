@@ -42,6 +42,10 @@ IHBlcnNpc3RlbnQgc3RvcmFnZQogICAgICBjb3N0OiAkMC4wMAogICAgcGFyYW1ldGVyczogKl9w\
 CiAgICB1cGRhdGVzX3RvOgogICAgICAtIGRldgo="
 
 
+# install the client for use during bind
+RUN yum -y install postgresql && yum clean all
+
+
 COPY roles /opt/ansible/roles
 COPY playbooks/* /opt/apb/actions/
 RUN chmod -R g=u /opt/{ansible,apb}
