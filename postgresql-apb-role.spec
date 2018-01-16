@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.1.4
+Version:	1.1.5
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,9 @@ mv roles %{buildroot}/opt/ansible/roles
 /opt/ansible/roles
 
 %changelog
+* Tue Jan 16 2018 David Zager <david.j.zager@gmail.com> 1.1.5-1
+- Kubernetes playbooks for postgresql (rhallise@redhat.com)
+
 * Mon Jan 08 2018 David Zager <david.j.zager@gmail.com> 1.1.4-1
 - Update tito releasers (david.j.zager@gmail.com)
 - Bug 1472226 - Add pattern regex for UI validation (cchase@redhat.com)
