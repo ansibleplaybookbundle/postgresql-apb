@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.1.5
+Version:	1.1.6
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,9 @@ mv roles %{buildroot}/opt/ansible/roles
 /opt/ansible/roles
 
 %changelog
+* Tue Jan 23 2018 Jason Montleon <jmontleo@redhat.com> 1.1.6-1
+- Use the dev plan for CI (rhallise@redhat.com)
+
 * Tue Jan 16 2018 David Zager <david.j.zager@gmail.com> 1.1.5-1
 - Kubernetes playbooks for postgresql (rhallise@redhat.com)
 
