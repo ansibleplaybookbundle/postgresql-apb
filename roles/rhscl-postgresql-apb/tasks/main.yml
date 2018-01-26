@@ -13,14 +13,8 @@
     register: olddeploy
     when: cluster=="kubernetes"
 
-  - name: Create source pgpass
-    shell: kubectl exec -n {{ namespace }} {{ oldpod.stdout }} -- /bin/bash -c "echo '*:*:*:{{ postgresql_user }}:{{ postgresql_password }}' > ~/.pgpass"
-
-  - name: Set permissions on source pgpass
-    shell: kubectl exec -n {{ namespace }} {{ oldpod.stdout }} -- /bin/bash -c "chmod 600 ~/.pgpass"
-
   - name: Backup source database
-    shell: kubectl exec -n {{ namespace }} {{ oldpod.stdout }} -- /bin/bash -c "PGPASSFILE=~/.pgpass pg_dump -h localhost -U '{{ postgresql_user }}' '{{ postgresql_database }}' > /tmp/db.dump"
+    shell: kubectl exec -n {{ namespace }} {{ oldpod.stdout }} -- /bin/bash -c "pg_dumpall -f /tmp/db.dump"
 
   - name: Copy over db backup
     shell: kubectl cp -n {{ namespace }} {{ oldpod.stdout }}:/tmp/db.dump /tmp/db.dump
@@ -64,14 +58,8 @@
   - name: Copy over db backup
     shell: kubectl cp -n {{ namespace }} /tmp/db.dump {{ newpod.stdout }}:tmp/db.dump
 
-  - name: Create destination pgpass
-    shell: kubectl exec -n {{ namespace }} {{ newpod.stdout }} -- /bin/bash -c "echo '*:*:*:{{ postgresql_user }}:{{ postgresql_password }}' > ~/.pgpass"
-
-  - name: Set permissions on destination pgpass
-    shell: kubectl exec -n {{ namespace }} {{ newpod.stdout }} -- /bin/bash -c "chmod 600 ~/.pgpass"
-
   - name: Restore database
-    shell: kubectl exec -n {{ namespace }} {{ newpod.stdout }} -- /bin/bash -c "psql -h localhost -U '{{ postgresql_user }}' '{{ postgresql_database }}' -f /tmp/db.dump"
+    shell: kubectl exec -n {{ namespace }} {{ newpod.stdout }} -- /bin/bash -c "psql -f /tmp/db.dump"
 
   - name: Remove deployment config
     openshift_v1_deployment_config:
