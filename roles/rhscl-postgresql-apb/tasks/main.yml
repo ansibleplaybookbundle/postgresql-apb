@@ -55,40 +55,42 @@
     shell: kubectl get pods -n {{ namespace }} --show-all=false -l service=postgresql-{{ postgresql_version }}-{{ _apb_plan_id }} -o custom-columns=name:.metadata.name --no-headers
     register: newpod
 
-  - name: Copy over db backup
-    shell: kubectl cp -n {{ namespace }} /tmp/db.dump {{ newpod.stdout }}:tmp/db.dump
+  - block:
+    - name: Copy over db backup
+      shell: kubectl cp -n {{ namespace }} /tmp/db.dump {{ newpod.stdout }}:tmp/db.dump
 
-  - name: Restore database
-    shell: kubectl exec -n {{ namespace }} {{ newpod.stdout }} -- /bin/bash -c "psql -f /tmp/db.dump"
+    - name: Restore database
+      shell: kubectl exec -n {{ namespace }} {{ newpod.stdout }} -- /bin/bash -c "psql -f /tmp/db.dump"
 
-  - name: Remove deployment config
-    openshift_v1_deployment_config:
-      name: "{{ olddc.stdout }}"
-      namespace: '{{ namespace }}'
-      state: absent
-    when: cluster=="openshift"
+    - name: Remove deployment config
+      openshift_v1_deployment_config:
+        name: "{{ olddc.stdout }}"
+        namespace: '{{ namespace }}'
+        state: absent
+      when: cluster=="openshift"
 
-  - name: Remove deployment
-    k8s_extensions_v1beta1_deployment:
-      name: "{{ olddeploy.stdout }}"
-      namespace: '{{ namespace }}'
-      state: absent
-    when: cluster=="kubernetes"
+    - name: Remove deployment
+      k8s_extensions_v1beta1_deployment:
+        name: "{{ olddeploy.stdout }}"
+        namespace: '{{ namespace }}'
+        state: absent
+      when: cluster=="kubernetes"
 
-  - name: ensure production volume is absent
-    k8s_v1_persistent_volume_claim:
-      name: postgresql-{{ item }}-prod
-      namespace: '{{ namespace }}'
-      access_modes:
-        - ReadWriteOnce
-      resources_requests:
-        storage: '{{ postgresql_volume_size }}'
-      state: "absent"
-    with_items:
-      - "9.4"
-      - "9.5"
-      - "9.6"
-    when: _apb_plan_id == "dev" or item != postgresql_version
+    - name: ensure production volume is absent
+      k8s_v1_persistent_volume_claim:
+        name: postgresql-{{ item }}-prod
+        namespace: '{{ namespace }}'
+        access_modes:
+          - ReadWriteOnce
+        resources_requests:
+          storage: '{{ postgresql_volume_size }}'
+        state: "absent"
+      with_items:
+        - "9.4"
+        - "9.5"
+        - "9.6"
+      when: _apb_plan_id == "dev" or item != postgresql_version
+    when: newpod.stdout != oldpod.stdout
   when: update is defined
 
 - name: encode bind credentials
