@@ -2,5 +2,6 @@
 postgresql_user: "admin"
 postgresql_volume_size: "1Gi"
 postgresql_version: "9.6"
+postgresql_admin_password: "{{ lookup('password', '/tmp/admin_password length=20 chars=ascii_letters,digits') }}"
 image: "registry.access.redhat.com/rhscl/postgresql-{{ postgresql_version | replace('.', '') }}-rhel7"
 state: present

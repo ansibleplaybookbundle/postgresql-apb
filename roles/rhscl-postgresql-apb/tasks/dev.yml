@@ -57,6 +57,8 @@
     - env:
       - name: POSTGRESQL_PASSWORD
         value: '{{ postgresql_password }}'
+      - name: POSTGRESQL_ADMIN_PASSWORD
+        value: '{{ postgresql_admin_password }}'
       - name: POSTGRESQL_USER
         value: '{{ postgresql_user }}'
       - name: POSTGRESQL_DATABASE
