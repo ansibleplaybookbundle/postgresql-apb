@@ -2,5 +2,6 @@
 postgresql_user: "admin"
 postgresql_volume_size: "1Gi"
 postgresql_version: "9.6"
+cluster: "kubernetes"
 image: "registry.access.redhat.com/rhscl/postgresql-{{ postgresql_version | replace('.', '') }}-rhel7"
 state: present
