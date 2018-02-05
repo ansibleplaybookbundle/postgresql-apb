@@ -1,8 +1,6 @@
 - name: Deploy rhscl-postgresql-apb to "{{ cluster }}"
   hosts: localhost
   gather_facts: false
-  vars:
-    cluster: "kubernetes"
   connection: local
   vars:
     update: true
