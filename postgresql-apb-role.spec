@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.1.7
+Version:	1.1.8
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,9 @@ mv roles %{buildroot}/opt/ansible/roles
 /opt/ansible/roles
 
 %changelog
+* Wed Feb 07 2018 David Zager <david.j.zager@gmail.com> 1.1.8-1
+- Bug 1540866 - Use k8s as default cluster (david.j.zager@gmail.com)
+
 * Fri Jan 26 2018 Jason Montleon <jmontleo@redhat.com> 1.1.7-1
 - Bug 1535931 Save all databases (jmontleo@redhat.com)
 
