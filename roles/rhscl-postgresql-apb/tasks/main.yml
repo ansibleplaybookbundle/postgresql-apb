@@ -17,7 +17,7 @@
     shell: kubectl exec -n {{ namespace }} {{ oldpod.stdout }} -- /bin/bash -c "pg_dumpall -f /tmp/db.dump"
 
   - name: Copy over db backup
-    shell: kubectl cp -n {{ namespace }} {{ oldpod.stdout }}:/tmp/db.dump /tmp/db.dump
+    shell: oc cp -n {{ namespace }} {{ oldpod.stdout }}:/tmp/db.dump /tmp/db.dump
   when: update is defined
 
 - name: set service state to {{ state }}
@@ -56,7 +56,7 @@
     register: newpod
 
   - name: Copy over db backup
-    shell: kubectl cp -n {{ namespace }} /tmp/db.dump {{ newpod.stdout }}:tmp/db.dump
+    shell: oc cp -n {{ namespace }} /tmp/db.dump {{ newpod.stdout }}:tmp/db.dump
 
   - name: Restore database
     shell: kubectl exec -n {{ namespace }} {{ newpod.stdout }} -- /bin/bash -c "psql -f /tmp/db.dump"
