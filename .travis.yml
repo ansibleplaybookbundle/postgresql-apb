@@ -9,7 +9,7 @@ before_script:
   - curl -s https://raw.githubusercontent.com/openshift/ansible-service-broker/master/scripts/travis.sh | bash -s before_install
   - curl -s https://raw.githubusercontent.com/openshift/ansible-service-broker/master/scripts/travis.sh | bash -s install
   - curl -s https://raw.githubusercontent.com/openshift/ansible-service-broker/master/scripts/travis.sh | bash -s before_script
-  - curl -s https://raw.githubusercontent.com/rthallisey/ansible-service-broker/new-ci-framework/scripts/broker-ci/setup-cluster.sh | bash -s
+  - curl -s https://raw.githubusercontent.com/openshift/ansible-service-broker/master/scripts/broker-ci/setup-cluster.sh | bash -s
   - go get github.com/rthallisey/service-broker-ci/cmd/ci
 script:
   - ci
