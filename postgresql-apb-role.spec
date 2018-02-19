@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.1.9
+Version:	1.1.10
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,9 @@ mv roles %{buildroot}/opt/ansible/roles
 /opt/ansible/roles
 
 %changelog
+* Mon Feb 19 2018 Jason Montleon <jmontleo@redhat.com> 1.1.10-1
+- Use the asb cluster script (rhallise@redhat.com)
+
 * Fri Feb 09 2018 Jason Montleon <jmontleo@redhat.com> 1.1.9-1
 - BZ 1535931 - Work around kubectl stalling in APBs (jmontleo@redhat.com)
 
