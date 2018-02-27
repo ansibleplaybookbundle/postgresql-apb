@@ -1,6 +1,6 @@
 - block:
   - name: Find pod we need to update
-    shell: kubectl get pods -n {{ namespace }} -l app=rhscl-postgresql-apb -o custom-columns=name:.metadata.name --no-headers
+    shell: oc get pods -n {{ namespace }} -l app=rhscl-postgresql-apb -o custom-columns=name:.metadata.name --no-headers
     register: oldpod
 
   - name: Find dc we will clean up
@@ -14,7 +14,7 @@
     when: cluster=="kubernetes"
 
   - name: Backup source database
-    shell: kubectl exec -n {{ namespace }} {{ oldpod.stdout }} -- /bin/bash -c "pg_dumpall -f /tmp/db.dump"
+    shell: oc exec -it -n {{ namespace }} {{ oldpod.stdout }} -- /bin/bash -c "pg_dumpall -f /tmp/db.dump"
 
   - name: Copy over db backup
     shell: oc cp -n {{ namespace }} {{ oldpod.stdout }}:/tmp/db.dump /tmp/db.dump
@@ -52,14 +52,14 @@
       timeout: 300
 
   - name: Find pod we need to restore
-    shell: kubectl get pods -n {{ namespace }} --show-all=false -l service=postgresql-{{ postgresql_version }}-{{ _apb_plan_id }} -o custom-columns=name:.metadata.name --no-headers
+    shell: oc get pods -n {{ namespace }} --show-all=false -l service=postgresql-{{ postgresql_version }}-{{ _apb_plan_id }} -o custom-columns=name:.metadata.name --no-headers
     register: newpod
 
   - name: Copy over db backup
     shell: oc cp -n {{ namespace }} /tmp/db.dump {{ newpod.stdout }}:tmp/db.dump
 
   - name: Restore database
-    shell: kubectl exec -n {{ namespace }} {{ newpod.stdout }} -- /bin/bash -c "psql -f /tmp/db.dump"
+    shell: oc exec -it -n {{ namespace }} {{ newpod.stdout }} -- /bin/bash -c "psql -f /tmp/db.dump"
 
   - name: Remove deployment config
     openshift_v1_deployment_config:
