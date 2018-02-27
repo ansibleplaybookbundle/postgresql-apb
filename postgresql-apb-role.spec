@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.1.10
+Version:	1.1.11
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,12 @@ mv roles %{buildroot}/opt/ansible/roles
 /opt/ansible/roles
 
 %changelog
+* Tue Feb 27 2018 Jason Montleon <jmontleo@redhat.com> 1.1.11-1
+- Bug 1549019 - Work around connection upgrade issues with oc cp
+  (jmontleo@redhat.com)
+- Bug 1549019 - Partially work around connection upgrade issues
+  (jmontleo@redhat.com)
+
 * Mon Feb 19 2018 Jason Montleon <jmontleo@redhat.com> 1.1.10-1
 - Use the asb cluster script (rhallise@redhat.com)
 
