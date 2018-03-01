@@ -13,11 +13,14 @@
     register: olddeploy
     when: cluster=="kubernetes"
 
-  - name: Backup source database
-    shell: oc exec -it -n {{ namespace }} {{ oldpod.stdout }} -- /bin/bash -c "pg_dumpall -f /tmp/db.dump"
+  - name: Create db backup directory
+    shell: oc exec -it -n {{ namespace }} {{ oldpod.stdout }} -- /bin/bash -c "mkdir /tmp/db"
 
-  - name: Copy over db backup
-    shell: oc cp -n {{ namespace }} {{ oldpod.stdout }}:/tmp/db.dump /tmp/db.dump
+  - name: Backup source database
+    shell: oc exec -it -n {{ namespace }} {{ oldpod.stdout }} -- /bin/bash -c "pg_dumpall -f /tmp/db/dump"
+
+  - name: rsync db backup to apb
+    shell: oc rsync -n {{ namespace }} {{ oldpod.stdout }}:/tmp/db /tmp
   when: update is defined
 
 - name: set service state to {{ state }}
@@ -55,11 +58,11 @@
     shell: oc get pods -n {{ namespace }} --show-all=false -l service=postgresql-{{ postgresql_version }}-{{ _apb_plan_id }} -o custom-columns=name:.metadata.name --no-headers
     register: newpod
 
-  - name: Copy over db backup
-    shell: oc cp -n {{ namespace }} /tmp/db.dump {{ newpod.stdout }}:tmp/db.dump
+  - name: rsync db backup to new pod
+    shell: oc rsync -n {{ namespace }} /tmp/db {{ newpod.stdout }}:/tmp
 
   - name: Restore database
-    shell: oc exec -it -n {{ namespace }} {{ newpod.stdout }} -- /bin/bash -c "psql -f /tmp/db.dump"
+    shell: oc exec -it -n {{ namespace }} {{ newpod.stdout }} -- /bin/bash -c "psql -f /tmp/db/dump"
 
   - name: Remove deployment config
     openshift_v1_deployment_config:
