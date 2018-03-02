@@ -14,7 +14,7 @@
     when: cluster=="kubernetes"
 
   - name: Create db backup directory
-    shell: oc exec -it -n {{ namespace }} {{ oldpod.stdout }} -- /bin/bash -c "mkdir /tmp/db"
+    shell: oc exec -it -n {{ namespace }} {{ oldpod.stdout }} -- /bin/bash -c "mkdir -p /tmp/db"
 
   - name: Backup source database
     shell: oc exec -it -n {{ namespace }} {{ oldpod.stdout }} -- /bin/bash -c "pg_dumpall -f /tmp/db/dump"
