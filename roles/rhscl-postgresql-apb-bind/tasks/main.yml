@@ -1,0 +1,37 @@
+- name: "Retrieve cluster_ip"
+  k8s_v1_service:
+    name: postgresql
+    namespace: '{{ namespace }}'
+  register: postgres_service
+
+- name: "Create database and user"
+  block:
+    - name: Generate client Password
+      set_fact:
+        client_password: "{{ lookup('password', '/tmp/postgres_pass chars=ascii_letters,digits length=13') }}"
+      when: (not client_password is defined) or (client_password == "")
+    - include_tasks: database.yml
+    - include_tasks: user.yml
+  when: state == 'present'
+
+- name: "Remove user and database"
+  block:
+    - name: "Set Unbind facts"
+      set_fact:
+        client_name: "{{ _apb_bind_creds.DB_DATABASE }}"
+        client_user: "{{ _apb_bind_creds.DB_USER }}"
+        client_password: "{{ _apb_bind_creds.DB_PASSWORD }}"
+    - include_tasks: user.yml
+    - include_tasks: database.yml
+  when: state == 'absent'
+
+- name: "Encode client credentials"
+  asb_encode_binding:
+    fields:
+      DB_TYPE: "{{ _apb_provision_creds.DB_TYPE }}"
+      DB_ADDR: "{{ _apb_provision_creds.DB_HOST }}"
+      DB_PORT: "{{ _apb_provision_creds.DB_PORT }}"
+      DB_USER: "{{ client_user }}"
+      DB_PASSWORD: "{{ client_password }}"
+      DB_DATABASE: "{{ client_name }}"
+  when: state == 'present'

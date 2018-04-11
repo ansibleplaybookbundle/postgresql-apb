@@ -2,25 +2,12 @@
 # Shared Parameters
 ################################################################################
 _p: &_p
-  - name: postgresql_database
-    default: admin
-    type: string
-    title: PostgreSQL Database Name
-    pattern: "^[a-zA-Z_][a-zA-Z0-9_]*$"
-    required: true
-  - name: postgresql_user
-    default: admin
-    title: PostgreSQL User
-    type: string
-    maxlength: 63
-    pattern: "^[a-zA-Z_][a-zA-Z0-9_]*$"
-    required: true
   - name: postgresql_password
     type: string
-    title: PostgreSQL Password
+    title: PostgreSQL Admin Password (postgres user)
     display_type: password
     pattern: "^[a-zA-Z0-9_~!@#$%^&*()-=<>,.?;:|]+$"
-    required: true
+    required: false
   - name: postgresql_version
     default: '9.6'
     enum: ['9.6', '9.5', '9.4']
@@ -29,11 +16,32 @@ _p: &_p
     required: true
     updatable: true
 ################################################################################
-version: 1.0
+_b: &_b
+  - name: client_name
+    type: string
+    required: true
+    title: Client name
+    pattern: "^[a-zA-Z_][a-zA-Z0-9_]*$"
+    description: A new database will be created for that client with that name.
+  - name: client_user
+    title: Client User
+    type: string
+    maxlength: 63
+    pattern: "^[a-zA-Z_][a-zA-Z0-9_]*$"
+    required: true
+    description: A new user will be created with this name and granted permissions to connect to the newly created database.
+  - name: client_password
+    type: string
+    title: Client PostgreSQL Password
+    display_type: password
+    pattern: "^[a-zA-Z0-9_~!@#$%^&*()-=<>,.?;:|]+$"
+    required: false
+################################################################################
+version: 1.1
 name: postgresql-apb
 description: SCL PostgreSQL apb implementation
 bindable: true
-async: optional
+async: required
 tags:
   - database
   - postgresql
@@ -56,6 +64,7 @@ plans:
       longDescription: This plan provides a single non-HA PostgreSQL server without persistent storage
       cost: $0.00
     parameters: *_p
+    bind_parameters: *_b
     updates_to:
       - prod
   - name: prod
@@ -66,5 +75,6 @@ plans:
       longDescription: This plan provides a single non-HA PostgreSQL server with persistent storage
       cost: $0.00
     parameters: *_p
+    bind_parameters: *_b
     updates_to:
       - dev
