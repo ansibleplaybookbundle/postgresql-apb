@@ -11,12 +11,14 @@ An apb for deploying [PostgreSQL](https://www.postgresql.org).
 ## Requirements
 * N/A
 
-## Parameters
-* namespace: Optional, default 'rhscl-postgresql-apb', Namespace to deploy the cluster in.
-* postgresql_database, Optional, default 'admin', Postgresql database name.
-* postgresql_password, Optional, default is a randomly generated string, Postgresql databaase password.
-* postgresql_user, Optional, default 'admin', Postgresql database username.
-* postgresql_version, Optional, default '9.6', Postgresql version. 9.4, 9.5, and 9.6 are supported.
+## Provision Parameters
+* postgresql_password, Optional. Postgresql Admin database password. A randomly generated string will be set if empty.
+* postgresql_version, Required, default '9.6', Postgresql version. 9.4, 9.5, and 9.6 are supported.
+
+## Bind Parameters
+* client_name, Required. Name of the client to bound. A new database will be created with this name
+* client_user, Required. Client user name to create and grant permissions on the newly created database.
+* client_password, Optional. Client user password. A randomly generated string will be set if empty.
 
 ## Running the application
 `docker run --rm --net=host -v $HOME/.kube:/opt/apb/.kube:z -u $UID docker.io/ansibleplaybookbundle/postresql-apb provision`
