@@ -15,7 +15,7 @@ metadata:
     - 'registry.access.redhat.com/rhscl/postgresql-94-rhel7'
     - 'registry.access.redhat.com/rhscl/postgresql-95-rhel7'
     - 'registry.access.redhat.com/rhscl/postgresql-96-rhel7'
-  displayName: DZ PostgreSQL (APB)
+  displayName: PostgreSQL (APB)
   console.openshift.io/iconClass: icon-postgresql
   providerDisplayName: "Red Hat, Inc."
 plans:
