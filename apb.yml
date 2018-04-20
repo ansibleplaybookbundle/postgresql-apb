@@ -1,34 +1,5 @@
-################################################################################
-# Shared Parameters
-################################################################################
-_p: &_p
-  - name: postgresql_database
-    default: admin
-    type: string
-    title: PostgreSQL Database Name
-    pattern: "^[a-zA-Z_][a-zA-Z0-9_]*$"
-    required: true
-  - name: postgresql_user
-    default: admin
-    title: PostgreSQL User
-    type: string
-    maxlength: 63
-    pattern: "^[a-zA-Z_][a-zA-Z0-9_]*$"
-    required: true
-  - name: postgresql_password
-    type: string
-    title: PostgreSQL Password
-    display_type: password
-    pattern: "^[a-zA-Z0-9_~!@#$%^&*()-=<>,.?;:|]+$"
-    required: true
-  - name: postgresql_version
-    default: '9.6'
-    enum: ['9.6', '9.5', '9.4']
-    type: enum
-    title: PostgreSQL Version
-    required: true
-    updatable: true
-################################################################################
+---
+
 version: 1.0
 name: postgresql-apb
 description: SCL PostgreSQL apb implementation
@@ -53,9 +24,37 @@ plans:
     free: true
     metadata:
       displayName: Development
-      longDescription: This plan provides a single non-HA PostgreSQL server without persistent storage
+      longDescription:
+        This plan provides a single non-HA PostgreSQL server without
+        persistent storage
       cost: $0.00
-    parameters: *_p
+    parameters:
+      - name: postgresql_database
+        default: admin
+        type: string
+        title: PostgreSQL Database Name
+        pattern: "^[a-zA-Z_][a-zA-Z0-9_]*$"
+        required: true
+      - name: postgresql_user
+        default: admin
+        title: PostgreSQL User
+        type: string
+        maxlength: 63
+        pattern: "^[a-zA-Z_][a-zA-Z0-9_]*$"
+        required: true
+      - name: postgresql_password
+        type: string
+        title: PostgreSQL Password
+        display_type: password
+        pattern: "^[a-zA-Z0-9_~!@#$%^&*()-=<>,.?;:|]+$"
+        required: true
+      - name: postgresql_version
+        default: '9.6'
+        enum: ['9.6', '9.5', '9.4']
+        type: enum
+        title: PostgreSQL Version
+        required: true
+        updatable: true
     updates_to:
       - prod
   - name: prod
@@ -63,8 +62,42 @@ plans:
     free: true
     metadata:
       displayName: Production
-      longDescription: This plan provides a single non-HA PostgreSQL server with persistent storage
+      longDescription:
+        This plan provides a single non-HA PostgreSQL server with
+        persistent storage
       cost: $0.00
-    parameters: *_p
+    parameters:
+      - name: postgresql_database
+        default: admin
+        type: string
+        title: PostgreSQL Database Name
+        pattern: "^[a-zA-Z_][a-zA-Z0-9_]*$"
+        required: true
+      - name: postgresql_user
+        default: admin
+        title: PostgreSQL User
+        type: string
+        maxlength: 63
+        pattern: "^[a-zA-Z_][a-zA-Z0-9_]*$"
+        required: true
+      - name: postgresql_password
+        type: string
+        title: PostgreSQL Password
+        display_type: password
+        pattern: "^[a-zA-Z0-9_~!@#$%^&*()-=<>,.?;:|]+$"
+        required: true
+      - name: postgresql_version
+        default: '9.6'
+        enum: ['9.6', '9.5', '9.4']
+        type: enum
+        title: PostgreSQL Version
+        required: true
+        updatable: true
+      - name: postgresql_volume_size
+        type: enum
+        default: '1Gi'
+        enum: ['1Gi', '5Gi', '10Gi']
+        title: PostgreSQL Volume Size
+        required: true
     updates_to:
       - dev
