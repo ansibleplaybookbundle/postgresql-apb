@@ -1,5 +1,4 @@
 FROM ansibleplaybookbundle/apb-base:canary
-# MAINTAINER {{ $MAINTAINER }}
 
 LABEL "com.redhat.apb.spec"=\
 "LS0tCgp2ZXJzaW9uOiAxLjAKbmFtZTogcG9zdGdyZXNxbC1hcGIKZGVzY3JpcHRpb246IFNDTCBQ\
@@ -56,8 +55,11 @@ ICcxMEdpJ10KICAgICAgICB0aXRsZTogUG9zdGdyZVNRTCBWb2x1bWUgU2l6ZQogICAgICAgIHJl\
 cXVpcmVkOiB0cnVlCiAgICB1cGRhdGVzX3RvOgogICAgICAtIGRldgo="
 
 
-COPY roles /opt/ansible/roles
-COPY playbooks/* /opt/apb/actions/
+ADD playbooks /opt/apb/actions
+
+# Add our role into the ansible roles dir
+ADD . /opt/ansible/roles/postgresql-apb
+
 RUN chmod -R g=u /opt/{ansible,apb}
 
 USER apb

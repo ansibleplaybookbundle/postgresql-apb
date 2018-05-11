@@ -1,0 +1,20 @@
+---
+
+state_map:
+  provision: present
+  update: present
+  deprovision: absent
+state: "{{ state_map[apb_action] }}"
+
+# Whether we are in a cluster or not.
+pod_name: "{{ lookup('env', 'POD_NAME') }}"
+pod_namespace: "{{ lookup('env', 'POD_NAMESPACE') }}"
+in_cluster: "{{ True if (pod_name and pod_namespace) else False }}"
+
+pod_lookup: "{{ lookup('k8s', api_version='v1', kind='Pod', namespace=namespace, label_selector='app=' + app_name) }}"
+app_pod_name: "{{ pod_lookup | json_query('metadata.name') }}"
+
+deployment_kind: "{{ 'DeploymentConfig' if cluster == 'openshift' else 'Deployment' }}"
+available_status_query: "status.conditions[?type == 'Available'].status"
+deployment_lookup: "{{ lookup('openshift', kind=deployment_kind, namespace=namespace, resource_name=app_name) }}"
+deployment_query: "{{ deployment_lookup | json_query(available_status_query) | first }}"
