@@ -21,9 +21,9 @@ BuildArch:  	noarch
 %setup -q -n %{name}-%{version}
 
 %install
-mkdir -p %{buildroot}/opt/apb/ %{buildroot}/opt/ansible/
+mkdir -p %{buildroot}/opt/apb/ %{buildroot}/opt/ansible/roles/postgresql-apb
 mv playbooks %{buildroot}/opt/apb/actions
-mv roles %{buildroot}/opt/ansible/roles
+mv defaults tasks templates vars %{buildroot}/opt/ansible/roles/postgresql-apb
 
 %files
 %doc
