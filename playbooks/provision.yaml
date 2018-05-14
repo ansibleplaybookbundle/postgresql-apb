@@ -1,9 +1,9 @@
-- name: Deploy rhscl-postgresql-apb to "{{ cluster }}"
+- name: postgresql-apb provision
   hosts: localhost
   gather_facts: false
   connection: local
   roles:
-  - role: ansible.kubernetes-modules
-    install_python_requirements: no
-  - role: ansibleplaybookbundle.asb-modules
-  - rhscl-postgresql-apb
+  - ansibleplaybookbundle.asb-modules
+  - postgresql-apb
+  vars:
+    apb_action: provision

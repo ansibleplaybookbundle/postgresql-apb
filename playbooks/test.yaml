@@ -1,0 +1,24 @@
+---
+
+- name: Test postgresql-apb
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  roles:
+  - ansibleplaybookbundle.asb-modules
+
+  tasks:
+    - name: Provision test
+      include_role:
+        name: postgresql-apb
+      vars:
+        apb_action: provision
+        in_cluster: False
+
+    - name: Deprovision test
+      include_role:
+        name: postgresql-apb
+      vars:
+        apb_action: deprovision
+        in_cluster: False

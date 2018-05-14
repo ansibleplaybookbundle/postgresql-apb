@@ -1,0 +1,82 @@
+---
+
+- name: "Update last operation"
+  asb_last_operation:
+    description: "0%: Starting"
+  when: in_cluster
+
+- name: 'Determine cluster type'
+  command: oc version
+  register: oc_version
+  ignore_errors: yes
+
+- name: 'Set facts'
+  set_fact:
+    cluster: "{{ 'openshift' if 'openshift' in oc_version.stdout else 'kubernetes' }}"
+
+- when: apb_action == 'update'
+  block:
+    - name: Backup database
+      shell: kubectl exec -it -n {{ namespace }} {{ app_pod_name }} -- /bin/bash -c "mkdir -p /tmp/db && pg_dumpall -f /tmp/db/dump"
+
+    - name: Rsync to APB
+      shell: oc rsync -n {{ namespace }} {{ app_pod_name }}:/tmp/db /tmp
+
+    - name: Take down old deployment
+      openshift_raw:
+        state: absent
+        definition: "{{ lookup('template', 'deployment.yaml') | from_yaml }}"
+
+    - name: "Update last operation"
+      asb_last_operation:
+        description: "25%: Backup complete"
+      when: in_cluster
+
+- name: "Set postgresql objects state={{ state }}"
+  openshift_raw:
+    state: "{{ item.state }}"
+    definition: "{{ lookup('template', item.name) | from_yaml }}"
+  with_items:
+    - name: service.yaml
+      state: "{{ state }}"
+    - name: pvc.yaml
+      state: "{{ state if _apb_plan_id == 'prod' else 'absent' }}"
+    - name: deployment.yaml
+      state: "{{ state }}"
+
+- name: "Update last operation"
+  asb_last_operation:
+    description: "50%: Objects updated state={{ state }}"
+  when: in_cluster
+
+- when: apb_action == 'update'
+  block:
+    - name: "Wait for deployment to become available"
+      debug:
+        msg: "Deployment available status: {{ deployment_query }}"
+      retries: 12
+      delay: 10
+      until:
+        - deployment_query
+
+    - name: rsync db backup to new pod
+      shell: oc rsync -n {{ namespace }} /tmp/db {{ app_pod_name }}:/tmp
+
+    - name: Restore database
+      shell: oc exec -it -n {{ namespace }} {{ app_pod_name }} -- /bin/bash -c "psql -f /tmp/db/dump"
+
+- name: encode bind credentials
+  asb_encode_binding:
+    fields:
+      DB_TYPE: postgres
+      DB_HOST: postgresql
+      DB_PORT: "5432"
+      DB_USER: "{{ postgresql_user }}"
+      DB_PASSWORD: "{{ postgresql_password }}"
+      DB_NAME: "{{ postgresql_database }}"
+  when: in_cluster and state == 'present'
+
+- name: "Update last operation"
+  asb_last_operation:
+    description: "100%: Done"
+  when: in_cluster
