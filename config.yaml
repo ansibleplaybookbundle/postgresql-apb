@@ -1,9 +1,0 @@
-provision: postgresql-apb
-provision: ansibleplaybookbundle/mediawiki-apb
-
-bind: postgresql-apb
-verify: rthallisey/service-broker-ci/verify-mediawiki-postgresql.sh
-unbind: postgresql-apb | mediawiki-apb
-
-deprovision: postgresql-apb
-deprovision: ansibleplaybookbundle/mediawiki-apb
