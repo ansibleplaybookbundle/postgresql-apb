@@ -22,10 +22,13 @@
     - name: Rsync to APB
       shell: oc rsync -n {{ namespace }} {{ app_pod_name }}:/tmp/db /tmp
 
-    - name: Take down old deployment
+    - name: Take down old deployment and pvc (if it exists)
       openshift_raw:
         state: absent
-        definition: "{{ lookup('template', 'deployment.yaml') | from_yaml }}"
+        definition: "{{ lookup('template', item) | from_yaml }}"
+      loop:
+        - pvc.yaml
+        - deployment.yaml
 
     - name: "Update last operation"
       asb_last_operation:
