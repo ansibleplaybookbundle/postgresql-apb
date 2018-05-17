@@ -1,25 +1,34 @@
-postgresql-apb
-======================
+[![Build
+Status](https://travis-ci.org/ansibleplaybookbundle/postgresql-apb.svg?branch=master)](https://travis-ci.org/ansibleplaybookbundle/postgresql-apb)
 
-[![Build Status](https://travis-ci.org/ansibleplaybookbundle/postgresql-apb.svg?branch=master)](https://travis-ci.org/openshift/ansible-service-broker)
+PostgreSQL APB
+==============
 
-An apb for deploying [PostgreSQL](https://www.postgresql.org).
+Ansible Role for installing (and uninstalling) [postgresql](https://www.postgresql.org/about/)
+in a Kubernetes/OpenShift Cluster.
 
-## What it does
-* Deploys 1 postgresql container.
+Requirements
+------------
 
-## Requirements
-* N/A
+- [openshift-restclient-python](https://github.com/openshift/openshift-restclient-python)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 
-## Parameters
-* namespace: Optional, default 'rhscl-postgresql-apb', Namespace to deploy the cluster in.
-* postgresql_database, Optional, default 'admin', Postgresql database name.
-* postgresql_password, Optional, default is a randomly generated string, Postgresql databaase password.
-* postgresql_user, Optional, default 'admin', Postgresql database username.
-* postgresql_version, Optional, default '9.6', Postgresql version. 9.4, 9.5, and 9.6 are supported.
+Role Variables
+--------------
 
-## Running the application
-`docker run --rm --net=host -v $HOME/.kube:/opt/apb/.kube:z -u $UID docker.io/ansibleplaybookbundle/postresql-apb provision`
+See [defaults/main.yaml](defaults/main.yaml).
 
-## Tearing down the application
-`docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_TOKEN=<token>" ansibleplaybookbundle/postgresql-apb deprovision`
+Example Playbook
+----------------
+
+See [playbooks/provision.yml](playbooks/provision.yml).
+
+License
+-------
+
+Apache-2.0
+
+Author Information
+------------------
+
+http://automationbroker.io

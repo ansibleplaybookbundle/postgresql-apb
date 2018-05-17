@@ -1,0 +1,17 @@
+---
+
+# Defaults for values we could expect from a broker
+_apb_plan_id: default
+_apb_service_class_id: 0
+_apb_service_instance_id: 0
+
+app_name: "postgresql-{{ _apb_service_instance_id }}"
+app_image: registry.access.redhat.com/rhscl/postgresql-{{ postgresql_version | replace('.', '') }}-rhel7
+namespace: "{{ lookup('env','NAMESPACE') | default('postgresql', true) }}"
+
+# Postgresql defaults
+postgresql_database: admin
+postgresql_user: admin
+postgresql_password: changeme
+postgresql_volume_size: 1Gi
+postgresql_version: "9.6"

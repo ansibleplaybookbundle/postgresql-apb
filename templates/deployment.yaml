@@ -1,0 +1,72 @@
+---
+
+apiVersion: v1
+{% if cluster == 'kubernetes' %}
+kind: Deployment
+{% else %}
+kind: DeploymentConfig
+{% endif %}
+metadata:
+  name: {{ app_name }}
+  namespace: {{ namespace }}
+  labels:
+    app: {{ app_name }}
+    service: {{ app_name }}
+spec:
+  replicas: 1
+{% if cluster == 'kubernetes' %}
+  selector:
+    matchLabels:
+      app: {{ app_name }}
+      service: {{ app_name }}
+  strategy:
+    type: Recreate
+{% else %}
+  selector:
+    app: {{ app_name }}
+    service: {{ app_name }}
+  strategy:
+    type: Rolling
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+  test: false
+  triggers:
+    - type: ConfigChange
+{% endif %}
+  template:
+    metadata:
+      labels:
+        app: {{ app_name }}
+        service: {{ app_name }}
+    spec:
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      containers:
+        - image: {{ app_image }}
+          name: postgresql
+          env:
+            - name: POSTGRESQL_PASSWORD
+              value: {{ postgresql_password }}
+            - name: POSTGRESQL_USER
+              value: {{ postgresql_user }}
+            - name: POSTGRESQL_DATABASE
+              value: {{ postgresql_database }}
+          terminationMessagePath: /dev/termination-log
+          workingDir: /
+          ports:
+            - container_port: 5432
+              protocol: TCP
+{% if _apb_plan_id == 'prod' %}
+          volumeMounts:
+            - name: postgresql
+              mountPath: /var/lib/pgsql/data
+      volumes:
+        - name: postgresql
+          persistent_volume_claim:
+            claim_name: {{ app_name }}
+{% endif %}
