@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.2.2
+Version:	1.2.3
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,10 @@ mv defaults tasks templates vars %{buildroot}/opt/ansible/roles/postgresql-apb
 /opt/ansible/roles
 
 %changelog
+* Thu May 17 2018 David Zager <david.j.zager@gmail.com> 1.2.3-1
+- Bug 1570603: Make postgresql-apb (de)provision idempotent (#45)
+  (dzager@redhat.com)
+
 * Thu Apr 19 2018 David Zager <david.j.zager@gmail.com> 1.2.2-1
 - Bug 1563641 - Specify PV Size (#43) (dzager@redhat.com)
 
