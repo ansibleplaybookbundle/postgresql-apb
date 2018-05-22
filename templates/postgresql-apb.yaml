@@ -6,6 +6,7 @@ spec:
   clusterServiceClassExternalName: dh-postgresql-apb
   clusterServicePlanExternalName: dev
   parameters:
+    app_name: "postgresql"
     postgresql_database: "admin"
     postgresql_password: "admin"
     postgresql_user: "admin"
