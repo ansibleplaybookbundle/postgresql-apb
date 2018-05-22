@@ -7,9 +7,9 @@ python:
 
 env:
   - OPENSHIFT_VERSION=v3.9
-  - OPENSHIFT_VERSION=v3.10
+    #- OPENSHIFT_VERSION=v3.10
   - KUBERNETES_VERSION=v1.9.0
-  - KUBERNETES_VERSION=v1.10.0
+    #- KUBERNETES_VERSION=v1.10.0
 # Allow failures on oc latest
 # TODO: re-enable latest when it isn't busted
 matrix:

@@ -18,3 +18,10 @@ deployment_kind: "{{ 'DeploymentConfig' if cluster == 'openshift' else 'Deployme
 available_status_query: "status.conditions[?type == 'Available'].status"
 deployment_lookup: "{{ lookup('openshift', kind=deployment_kind, namespace=namespace, resource_name=app_name) }}"
 deployment_query: "{{ deployment_lookup | json_query(available_status_query) | first }}"
+
+# Ansible 2.5 api versions
+deployment_api_version: v1
+deploymentconfig_api_version: v1
+pvc_api_version: v1
+route_api_version: v1
+service_api_version: v1
