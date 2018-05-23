@@ -14,6 +14,10 @@
   set_fact:
     cluster: "{{ 'openshift' if 'openshift' in oc_version.stdout else 'kubernetes' }}"
 
+- name: 'Include variables based on ansible version'
+  include_vars: ansible_26.yml
+  when: ansible_version.full is version('2.6', '>=')
+
 - when: apb_action == 'update'
   block:
     - name: Backup database
