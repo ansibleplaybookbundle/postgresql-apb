@@ -1,6 +1,6 @@
 ---
 
-apiVersion: {{ pvc_api_version }}
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ app_name }}

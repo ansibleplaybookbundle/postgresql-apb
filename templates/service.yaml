@@ -1,6 +1,6 @@
 ---
 
-apiVersion: {{ service_api_version }}
+apiVersion: v1
 kind: Service
 metadata:
   name: {{ app_name }}
