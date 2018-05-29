@@ -76,7 +76,7 @@
   asb_encode_binding:
     fields:
       DB_TYPE: postgres
-      DB_HOST: postgresql
+      DB_HOST: "{{ app_name }}"
       DB_PORT: "5432"
       DB_USER: "{{ postgresql_user }}"
       DB_PASSWORD: "{{ postgresql_password }}"
