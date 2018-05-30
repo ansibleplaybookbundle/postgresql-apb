@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.2.4
+Version:	1.2.5
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,9 @@ mv defaults tasks templates vars %{buildroot}/opt/ansible/roles/postgresql-apb
 /opt/ansible/roles
 
 %changelog
+* Wed May 30 2018 David Zager <david.j.zager@gmail.com> 1.2.5-1
+- Bug 1583543 - Fix db_host (#49) (dzager@redhat.com)
+
 * Thu May 24 2018 David Zager <david.j.zager@gmail.com> 1.2.4-1
 - Include vars for ansible version >= 2.6 (#47) (dzager@redhat.com)
 - Hardcode app_name for ci (#46) (rhallise@redhat.com)
