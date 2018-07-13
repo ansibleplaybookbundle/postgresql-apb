@@ -1,6 +1,6 @@
 ---
 
-version: 1.0
+version: 1.0.0
 name: postgresql-apb
 description: SCL PostgreSQL apb implementation
 bindable: true
