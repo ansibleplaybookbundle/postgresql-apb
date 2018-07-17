@@ -1,10 +1,10 @@
 ---
 
 {% if cluster == 'kubernetes' %}
-apiVersion: {{ deployment_api_version }}
+apiVersion: apps/v1
 kind: Deployment
 {% else %}
-apiVersion: {{ deploymentconfig_api_version }}
+apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 {% endif %}
 metadata:

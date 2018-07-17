@@ -5,18 +5,9 @@
     description: "0%: Starting"
   when: in_cluster
 
-- name: 'Determine cluster type'
-  command: oc version
-  register: oc_version
-  ignore_errors: yes
-
 - name: 'Set facts'
   set_fact:
-    cluster: "{{ 'openshift' if 'openshift' in oc_version.stdout else 'kubernetes' }}"
-
-- name: 'Include variables based on ansible version'
-  include_vars: ansible_26.yml
-  when: ansible_version.full is version('2.6', '>=')
+    cluster: '{{ "openshift" if "openshift" in lookup("k8s", cluster_info="version") else "kubernetes" }}'
 
 - when: apb_action == 'update'
   block:
@@ -27,7 +18,7 @@
       shell: oc rsync -n {{ namespace }} {{ app_pod_name }}:/tmp/db /tmp
 
     - name: Take down old deployment and pvc (if it exists)
-      openshift_raw:
+      k8s:
         state: absent
         definition: "{{ lookup('template', item) | from_yaml }}"
       loop:
@@ -40,16 +31,15 @@
       when: in_cluster
 
 - name: "Set postgresql objects state={{ state }}"
-  openshift_raw:
-    state: "{{ item.state }}"
+  k8s:
+    state: "{{ state }}"
     definition: "{{ lookup('template', item.name) | from_yaml }}"
-  with_items:
-    - name: service.yaml
-      state: "{{ state }}"
-    - name: pvc.yaml
-      state: "{{ state if _apb_plan_id == 'prod' else 'absent' }}"
-    - name: deployment.yaml
-      state: "{{ state }}"
+  when: item.apply | default(True)
+  loop:
+    - name: service.yaml.j2
+    - name: pvc.yaml.j2
+      apply: "{{ _apb_plan_id == 'prod' | bool }}"
+    - name: deployment.yaml.j2
 
 - name: "Update last operation"
   asb_last_operation:
