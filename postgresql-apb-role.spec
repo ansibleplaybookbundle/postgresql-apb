@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.3.0
+Version:	1.3.1
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,11 @@ mv defaults tasks templates vars %{buildroot}/opt/ansible/roles/postgresql-apb
 /opt/ansible/roles
 
 %changelog
+* Tue Jul 24 2018 David Zager <david.j.zager@gmail.com> 1.3.1-1
+- Bump version for 3.11 (david.j.zager@gmail.com)
+- Move to ansible 2.6 (#53) (dzager@redhat.com)
+- Update apb version to be semver compatible (#51) (dzager@redhat.com)
+
 * Wed May 30 2018 David Zager <david.j.zager@gmail.com> 1.2.5-1
 - Bug 1583543 - Fix db_host (#49) (dzager@redhat.com)
 
