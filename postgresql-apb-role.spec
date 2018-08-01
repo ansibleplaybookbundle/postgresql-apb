@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.3.1
+Version:	1.3.2
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -31,6 +31,9 @@ mv defaults tasks templates vars %{buildroot}/opt/ansible/roles/postgresql-apb
 /opt/ansible/roles
 
 %changelog
+* Wed Aug 01 2018 David Zager <david.j.zager@gmail.com> 1.3.2-1
+- Bug 1601334 increase the deployment wait timeout (jmontleo@redhat.com)
+
 * Tue Jul 24 2018 David Zager <david.j.zager@gmail.com> 1.3.1-1
 - Bump version for 3.11 (david.j.zager@gmail.com)
 - Move to ansible 2.6 (#53) (dzager@redhat.com)
