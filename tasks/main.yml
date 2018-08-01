@@ -51,7 +51,7 @@
     - name: "Wait for deployment to become available"
       debug:
         msg: "Deployment available status: {{ deployment_query }}"
-      retries: 12
+      retries: 25
       delay: 10
       until:
         - deployment_query
