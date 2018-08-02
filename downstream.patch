@@ -1,0 +1,33 @@
+diff --git a/apb.yml b/apb.yml
+index ccf7247..93f0377 100644
+--- a/apb.yml
++++ b/apb.yml
+@@ -12,9 +12,9 @@ metadata:
+   documentationUrl: https://www.postgresql.org/docs/
+   longDescription: An apb that deploys postgresql 9.4, 9.5, or 9.6.
+   dependencies:
+-    - 'docker.io/centos/postgresql-94-centos7'
+-    - 'docker.io/centos/postgresql-95-centos7'
+-    - 'docker.io/centos/postgresql-96-centos7'
++    - 'registry.redhat.io/rhscl/postgresql-94-rhel7'
++    - 'registry.redhat.io/rhscl/postgresql-95-rhel7'
++    - 'registry.redhat.io/rhscl/postgresql-96-rhel7'
+   displayName: PostgreSQL (APB)
+   console.openshift.io/iconClass: icon-postgresql
+   providerDisplayName: "Red Hat, Inc."
+diff --git a/defaults/main.yml b/defaults/main.yml
+index ab246d1..e82e581 100644
+--- a/defaults/main.yml
++++ b/defaults/main.yml
+@@ -6,9 +6,9 @@ _apb_service_class_id: 0
+ _apb_service_instance_id: 0
+ 
+ app_name: "postgresql-{{ _apb_service_instance_id }}"
+-registry_url: docker.io
+-registry_org: centos
+-image_version: centos7
++registry_url: registry.redhat.io
++registry_org: rhscl
++image_version: rhel7
+ app_image: "{{ registry_url }}/{{ registry_org }}/postgresql-{{ postgresql_version | replace('.', '') }}-{{ image_version }}"
+ namespace: "{{ lookup('env','NAMESPACE') | default('postgresql', true) }}"
