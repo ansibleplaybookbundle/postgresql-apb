@@ -12,9 +12,9 @@ metadata:
   documentationUrl: https://www.postgresql.org/docs/
   longDescription: An apb that deploys postgresql 9.4, 9.5, or 9.6.
   dependencies:
-    - 'registry.access.redhat.com/rhscl/postgresql-94-rhel7'
-    - 'registry.access.redhat.com/rhscl/postgresql-95-rhel7'
-    - 'registry.access.redhat.com/rhscl/postgresql-96-rhel7'
+    - 'docker.io/centos/postgresql-94-centos7'
+    - 'docker.io/centos/postgresql-95-centos7'
+    - 'docker.io/centos/postgresql-96-centos7'
   displayName: PostgreSQL (APB)
   console.openshift.io/iconClass: icon-postgresql
   providerDisplayName: "Red Hat, Inc."

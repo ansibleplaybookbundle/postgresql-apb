@@ -6,7 +6,10 @@ _apb_service_class_id: 0
 _apb_service_instance_id: 0
 
 app_name: "postgresql-{{ _apb_service_instance_id }}"
-app_image: registry.access.redhat.com/rhscl/postgresql-{{ postgresql_version | replace('.', '') }}-rhel7
+registry_url: docker.io
+registry_org: centos
+image_version: centos7
+app_image: "{{ registry_url }}/{{ registry_org }}/postgresql-{{ postgresql_version | replace('.', '') }}-{{ image_version }}"
 namespace: "{{ lookup('env','NAMESPACE') | default('postgresql', true) }}"
 
 # Postgresql defaults
