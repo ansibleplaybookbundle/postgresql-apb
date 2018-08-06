@@ -38,7 +38,7 @@
   loop:
     - name: service.yaml.j2
     - name: pvc.yaml.j2
-      apply: "{{ _apb_plan_id == 'prod' | bool }}"
+      apply: "{{ (_apb_plan_id == 'prod') | bool }}"
     - name: deployment.yaml.j2
 
 - name: "Update last operation"
