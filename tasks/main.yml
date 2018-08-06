@@ -22,8 +22,8 @@
         state: absent
         definition: "{{ lookup('template', item) | from_yaml }}"
       loop:
-        - pvc.yaml
-        - deployment.yaml
+        - pvc.yaml.j2
+        - deployment.yaml.j2
 
     - name: "Update last operation"
       asb_last_operation:
