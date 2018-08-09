@@ -14,5 +14,4 @@ galaxy_info:
   galaxy_tags:
     - apb
 
-dependencies:
-  - ansibleplaybookbundle.asb-modules
+dependencies: []
