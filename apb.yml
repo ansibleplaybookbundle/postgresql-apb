@@ -15,6 +15,7 @@ metadata:
     - 'docker.io/centos/postgresql-94-centos7'
     - 'docker.io/centos/postgresql-95-centos7'
     - 'docker.io/centos/postgresql-96-centos7'
+    - 'docker.io/centos/postgresql-10-centos7'
   displayName: PostgreSQL (APB)
   console.openshift.io/iconClass: icon-postgresql
   providerDisplayName: "Red Hat, Inc."
@@ -49,8 +50,8 @@ plans:
         pattern: "^[a-zA-Z0-9_~!@#$%^&*()-=<>,.?;:|]+$"
         required: true
       - name: postgresql_version
-        default: '9.6'
-        enum: ['9.6', '9.5', '9.4']
+        default: '10'
+        enum: ['10', '9.6', '9.5', '9.4']
         type: enum
         title: PostgreSQL Version
         required: true
