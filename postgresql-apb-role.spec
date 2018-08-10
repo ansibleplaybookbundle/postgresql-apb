@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.3.4
+Version:	1.3.5
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -34,6 +34,9 @@ mv defaults tasks templates vars %{buildroot}/opt/ansible/roles/postgresql-apb
 /opt/ansible/roles
 
 %changelog
+* Fri Aug 10 2018 David Zager <david.j.zager@gmail.com> 1.3.5-1
+- 
+
 * Fri Aug 10 2018 David Zager <david.j.zager@gmail.com> 1.3.4-1
 - Add postgresql 10 to the list of options (#60) (jmontleo@redhat.com)
 - Remove asb-module dependency (david.j.zager@gmail.com)
