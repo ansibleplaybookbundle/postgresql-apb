@@ -10,9 +10,8 @@ tags:
   - postgresql
 metadata:
   documentationUrl: https://www.postgresql.org/docs/
-  longDescription: An apb that deploys postgresql 9.4, 9.5, or 9.6.
+  longDescription: An apb that deploys postgresql 9.5, 9.6 or 10.
   dependencies:
-    - 'docker.io/centos/postgresql-94-centos7'
     - 'docker.io/centos/postgresql-95-centos7'
     - 'docker.io/centos/postgresql-96-centos7'
     - 'docker.io/centos/postgresql-10-centos7'
@@ -51,7 +50,7 @@ plans:
         required: true
       - name: postgresql_version
         default: '10'
-        enum: ['10', '9.6', '9.5', '9.4']
+        enum: ['10', '9.6', '9.5']
         type: enum
         title: PostgreSQL Version
         required: true
@@ -88,8 +87,8 @@ plans:
         pattern: "^[a-zA-Z0-9_~!@#$%^&*()-=<>,.?;:|]+$"
         required: true
       - name: postgresql_version
-        default: '9.6'
-        enum: ['9.6', '9.5', '9.4']
+        default: '10'
+        enum: ['10', '9.6', '9.5']
         type: enum
         title: PostgreSQL Version
         required: true

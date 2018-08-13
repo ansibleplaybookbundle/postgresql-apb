@@ -2,15 +2,13 @@ diff --git a/apb.yml b/apb.yml
 index ccf7247..93f0377 100644
 --- a/apb.yml
 +++ b/apb.yml
-@@ -12,10 +12,10 @@ metadata:
+@@ -12,9 +12,9 @@ metadata:
    documentationUrl: https://www.postgresql.org/docs/
-   longDescription: An apb that deploys postgresql 9.4, 9.5, or 9.6.
+   longDescription: An apb that deploys postgresql 9.5, 9.6 or 10.
    dependencies:
--    - 'docker.io/centos/postgresql-94-centos7'
 -    - 'docker.io/centos/postgresql-95-centos7'
 -    - 'docker.io/centos/postgresql-96-centos7'
 -    - 'docker.io/centos/postgresql-10-centos7'
-+    - 'registry.redhat.io/rhscl/postgresql-94-rhel7'
 +    - 'registry.redhat.io/rhscl/postgresql-95-rhel7'
 +    - 'registry.redhat.io/rhscl/postgresql-96-rhel7'
 +    - 'registry.redhat.io/rhscl/postgresql-10-rhel7'
