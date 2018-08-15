@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.3.5
+Version:	1.3.6
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -34,6 +34,9 @@ mv defaults tasks templates vars %{buildroot}/opt/ansible/roles/postgresql-apb
 /opt/ansible/roles
 
 %changelog
+* Wed Aug 15 2018 David Zager <david.j.zager@gmail.com> 1.3.6-1
+- Remove deprecated application container versions (#61) (jmontleo@redhat.com)
+
 * Fri Aug 10 2018 David Zager <david.j.zager@gmail.com> 1.3.5-1
 - 
 
