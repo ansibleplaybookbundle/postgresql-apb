@@ -12,7 +12,7 @@
 - when: apb_action == 'update'
   block:
     - name: Backup database
-      shell: kubectl exec -it -n {{ namespace }} {{ app_pod_name }} -- /bin/bash -c "mkdir -p /tmp/db && pg_dumpall -f /tmp/db/dump"
+      shell: kubectl exec -i -n {{ namespace }} {{ app_pod_name }} -- /bin/bash -c "mkdir -p /tmp/db && pg_dumpall -f /tmp/db/dump"
 
     - name: Rsync to APB
       shell: oc rsync -n {{ namespace }} {{ app_pod_name }}:/tmp/db /tmp
@@ -60,7 +60,7 @@
       shell: oc rsync -n {{ namespace }} /tmp/db {{ app_pod_name }}:/tmp
 
     - name: Restore database
-      shell: oc exec -it -n {{ namespace }} {{ app_pod_name }} -- /bin/bash -c "psql -f /tmp/db/dump"
+      shell: kubectl exec -i -n {{ namespace }} {{ app_pod_name }} -- /bin/bash -c "psql -f /tmp/db/dump"
 
 - name: encode bind credentials
   asb_encode_binding:
