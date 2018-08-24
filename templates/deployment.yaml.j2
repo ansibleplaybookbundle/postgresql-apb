@@ -1,11 +1,11 @@
 ---
 
-{% if cluster == 'kubernetes' %}
-apiVersion: apps/v1
-kind: Deployment
-{% else %}
+{% if 'apps.openshift.io' in lookup('k8s', cluster_info='api_groups') %}
 apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
+{% else %}
+apiVersion: apps/v1
+kind: Deployment
 {% endif %}
 metadata:
   name: {{ app_name }}
@@ -15,14 +15,7 @@ metadata:
     service: {{ app_name }}
 spec:
   replicas: 1
-{% if cluster == 'kubernetes' %}
-  selector:
-    matchLabels:
-      app: {{ app_name }}
-      service: {{ app_name }}
-  strategy:
-    type: Recreate
-{% else %}
+{% if 'apps.openshift.io' in lookup('k8s', cluster_info='api_groups') %}
   selector:
     app: {{ app_name }}
     service: {{ app_name }}
@@ -37,6 +30,13 @@ spec:
   test: false
   triggers:
     - type: ConfigChange
+{% else %}
+  selector:
+    matchLabels:
+      app: {{ app_name }}
+      service: {{ app_name }}
+  strategy:
+    type: Recreate
 {% endif %}
   template:
     metadata:

@@ -5,10 +5,6 @@
     description: "0%: Starting"
   when: in_cluster
 
-- name: 'Set facts'
-  set_fact:
-    cluster: '{{ "openshift" if "openshift" in lookup("k8s", cluster_info="version") else "kubernetes" }}'
-
 - when: apb_action == 'update'
   block:
     - name: Backup database
