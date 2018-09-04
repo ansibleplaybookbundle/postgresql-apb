@@ -5,7 +5,7 @@
 %endif
 
 Name: 		postgresql-apb-role
-Version:	1.3.7
+Version:	1.3.8
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
@@ -34,6 +34,9 @@ mv defaults tasks templates vars %{buildroot}/opt/ansible/roles/postgresql-apb
 /opt/ansible/roles
 
 %changelog
+* Tue Sep 04 2018 Dylan Murray <dymurray@redhat.com> 1.3.8-1
+- Bug 1625161 - Typecast namespace to string (#64) (dymurray@redhat.com)
+
 * Thu Aug 30 2018 Dylan Murray <dymurray@redhat.com> 1.3.7-1
 - Bug 1584104 - No TTY (#62) (dzager@redhat.com)
 - Check for capabilities instead of openshift (jmontleo@redhat.com)
