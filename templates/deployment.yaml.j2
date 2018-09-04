@@ -9,7 +9,7 @@ kind: Deployment
 {% endif %}
 metadata:
   name: {{ app_name }}
-  namespace: {{ namespace }}
+  namespace: "{{ namespace | string }}"
   labels:
     app: {{ app_name }}
     service: {{ app_name }}
