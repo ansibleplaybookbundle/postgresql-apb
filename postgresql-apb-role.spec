@@ -4,15 +4,15 @@
 %define build_timestamp %{nil}
 %endif
 
-Name: 		postgresql-apb-role
-Version:	1.3.8
+Name:		postgresql-apb-role
+Version:	1.4.0
 Release:	1%{build_timestamp}%{?dist}
 Summary:	Ansible Playbook for PostgreSQL APB
 
 License:	ASL 2.0
 URL:		https://github.com/ansibleplaybookbundle/RHSCL-PostgreSQL-APB
 Source0:	https://github.com/ansibleplaybookbundle/RHSCL-PostgreSQL-APB/archive/%{name}-%{version}.tar.gz
-BuildArch:  	noarch
+BuildArch:	noarch
 
 %description
 %{summary}
